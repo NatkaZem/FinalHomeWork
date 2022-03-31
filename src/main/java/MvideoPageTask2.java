@@ -15,7 +15,7 @@ public class MvideoPageTask2 {
     private static MvideoPageTask2 mvideoPage;
 
     //кнопка "В корзину"
-    @FindBy(xpath = "//div[@class = 'carousel']//button[span[text() = ' В корзину']]")
+    @FindBy(xpath = "//mvid-day-product[contains(@class, 'main') and contains(@class, 'product')]")
     private SelenideElement vKorzinu;
 
     private MvideoPageTask2() {
@@ -25,6 +25,7 @@ public class MvideoPageTask2 {
         if (Objects.isNull(mvideoPage)) mvideoPage = Selenide.page(new MvideoPageTask2());
         return mvideoPage;
     }
+
 
     public SelenideElement getvKorzinu() {
         return vKorzinu;
@@ -66,7 +67,7 @@ public class MvideoPageTask2 {
 
 
     //цена товара из блока "Товары дня" (который мы выбираем)
-        @FindBy(xpath = "//div[contains(@class, 'carousel-desktop')]//mvid-price-2")
+    @FindBy(xpath = "//div[contains(@class, 'carousel-desktop')]//mvid-price-2")
     private SelenideElement tovarDnyaPrice;
 
 
@@ -108,7 +109,7 @@ public class MvideoPageTask2 {
 
 //div[contains(@class, 'c-cart-item__header')]//a[@class = 'c-link c-cart-item__title']
 
-   //Элемент "Самые просматриваемые"
+    //Элемент "Самые просматриваемые"
     @FindBy(xpath = "//mvid-mmag-collection/following-sibling::mvid-simple-product-collection-mp")
     private SelenideElement mostViewed;
 
@@ -155,5 +156,78 @@ public class MvideoPageTask2 {
     public SelenideElement getAppleProducts() {
         return appleProducts;
     }
+
+    //Дропдаун "Сначала популярные" на главной странице
+    @FindBy(xpath = "//div[contains(@class, 'dropdown')]//span[text() = 'Сначала популярные']")
+    private SelenideElement dropdown;
+
+    public SelenideElement getDropdown() {
+        return dropdown;
+    }
+
+    //Выпадающий список вариантов сортировки
+    @FindBy(xpath = "//div[contains(@class, 'open')]//following-sibling::div[@class = 'dropdown__options']")
+    private SelenideElement listDropdown;
+
+    public SelenideElement getListDropdown() {
+        return listDropdown;
+    }
+
+    //"Сначала дороже" в выпадающем списке вариантов сортировки
+    @FindBy(xpath = "//div[@class = 'dropdown__options']//div[text() = ' Сначала дороже ']")
+    private SelenideElement mostExpensive;
+
+    public SelenideElement getMostExpensive() {
+        return mostExpensive;
+    }
+
+    //Цена товаров Apple
+    @FindBy(xpath = "//div[@class = 'price price--grid ng-star-inserted']/span")
+    private SelenideElement priceApple;
+
+    public SelenideElement getPriceApple() {
+        return priceApple;
+    }
+
+    //кнопка "Войти"
+    @FindBy(xpath = "//div[@class = 'container'][.//*[text() = 'Войти']]")
+    private SelenideElement voity;
+
+    public SelenideElement getVoity() {
+        return voity;
+    }
+
+    //Модальное окно
+    @FindBy(xpath = "//div[contains(@class, 'modal-layout__content')]")
+    private SelenideElement modalWindow;
+
+    public SelenideElement getModalWindow() {
+        return modalWindow;
+    }
+
+    //Поле для ввода текста с плейсхолдером “Телефон”
+    @FindBy(xpath = "//div[@class = 'form-field__input-container']/input[@id = 'mvideo-form-field-input-1']")
+    private SelenideElement formField;
+
+    public SelenideElement getFormField() {
+        return formField;
+    }
+
+    //Неактивная кнопка “Продолжить” в модальном окне
+    @FindBy(xpath = "//div[contains(@class, 'login-form__column')]//*[contains(text(), ' Продолжить')]")
+    private SelenideElement buttonContinue;
+
+    public SelenideElement getButtonContinue() {
+        return buttonContinue;
+    }
+
+    //Ссылка "Для юридических лиц"
+    @FindBy(xpath = "//div[contains(@class, 'login-form__link-container')]//*[contains(text(), ' Для юридических лиц ')]")
+    private SelenideElement link;
+
+    public SelenideElement getLink() {
+        return link;
+    }
 }
+
 

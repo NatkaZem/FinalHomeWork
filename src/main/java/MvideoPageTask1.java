@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class MvideoPageTask1 {
     private static MvideoPageTask1 mvideoPage;
+    public SelenideElement testData;
 
     //кнопка "Статус заказа"
     @FindBy(xpath = "//div[@class = 'container'][.//*[text() = 'Статус заказа']]")
