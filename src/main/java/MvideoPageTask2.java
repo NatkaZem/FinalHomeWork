@@ -1,13 +1,7 @@
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MvideoPageTask2 {
@@ -15,7 +9,7 @@ public class MvideoPageTask2 {
     private static MvideoPageTask2 mvideoPage;
 
     //кнопка "В корзину"
-    @FindBy(xpath = "//mvid-day-product[contains(@class, 'main') and contains(@class, 'product')]")
+    @FindBy(xpath = "//mvid-day-product[contains(@class, 'main') and contains(@class, 'product')]//button")
     private SelenideElement vKorzinu;
 
     private MvideoPageTask2() {
@@ -66,8 +60,24 @@ public class MvideoPageTask2 {
     }
 
 
+    //название товара в корзине (который мы выбрали)
+    @FindBy(xpath = "//div[contains(@class, 'c-cart-item__text-wrapper')]//child::div[@class = 'c-cart-item__header']//a[contains(@class, 'c-cart-item__title')]")
+    private SelenideElement nameOfProductInTheCart;
+
+    public SelenideElement getNameOfProductInTheCart() {
+        return nameOfProductInTheCart;
+    }
+
+    //название товара в "Товары дня"
+    @FindBy(xpath = "//mvid-day-product[contains(@class, 'main') and contains(@class, 'product')]//following-sibling::div[contains(@class, 'title')]")
+    private SelenideElement nameOfProductOnProductOfDay;
+
+    public SelenideElement getNameOfProductOnProductOfDay() {
+        return nameOfProductOnProductOfDay;
+    }
+
     //цена товара из блока "Товары дня" (который мы выбираем)
-    @FindBy(xpath = "//div[contains(@class, 'carousel-desktop')]//mvid-price-2")
+    @FindBy(xpath = "//mvid-day-product[contains(@class, 'main') and contains(@class, 'product')]//div[contains(@class, 'price__wrapper')]")
     private SelenideElement tovarDnyaPrice;
 
 
@@ -76,7 +86,7 @@ public class MvideoPageTask2 {
     }
 
     //цена товара в корзине (который мы выбрали)
-    @FindBy(xpath = "//div[@class = 'c-cart-item__price-block']")
+    @FindBy(xpath = "//div[contains(@class, 'c-cart-item__text-wrapper')]//child::div[@class = 'c-cart-item__price-block']//span[@class = 'c-cart-item__price']")
     private SelenideElement tovarDnyaVKorzinePrice;
 
     public SelenideElement getTovarDnyaVKorzinePrice() {
@@ -107,7 +117,6 @@ public class MvideoPageTask2 {
         return price_1;
     }
 
-//div[contains(@class, 'c-cart-item__header')]//a[@class = 'c-link c-cart-item__title']
 
     //Элемент "Самые просматриваемые"
     @FindBy(xpath = "//mvid-mmag-collection/following-sibling::mvid-simple-product-collection-mp")
@@ -118,20 +127,22 @@ public class MvideoPageTask2 {
     }
 
     //Кнопка "Добавить в корзину" в категории "Самые просматриваемые" у первого товара
-    @FindBy(xpath = "//mvid-mmag-collection/following-sibling::mvid-simple-product-collection-mp//button")
+    @FindBy(xpath = "//mvid-simple-product-collection[.//h2[text() = 'Самые просматриваемые']]//div[contains(@class,'mvid-carousel-inner')]//div[contains(@class, 'product-mini-card__controls')][1]//button[contains(@class, 'actions__cart') and contains(@class,'mv-main-button--primary')]")
     private SelenideElement addToCart;
 
     public SelenideElement getAddToCart() {
         return addToCart;
     }
 
+
     //Кнопка "Добавить в корзину" в категории "Самые просматриваемые" у второго товара
-    @FindBy(xpath = "//mvid-mmag-collection/following-sibling::mvid-simple-product-collection-mp//button[2]")
+    @FindBy(xpath = "//mvid-simple-product-collection[.//h2[text() = 'Самые просматриваемые']]//div[contains(@class,'mvid-carousel-inner')]//div[contains(@class, 'product-mini-card__controls')][2]//button[contains(@class, 'actions__cart') and contains(@class,'mv-main-button--primary')]")
     private SelenideElement addToCart_1;
 
-//    public SelenideElement getAddToCart_1() {
-//        return addToCart;
-//    }
+    public SelenideElement getAddToCart_1() {
+        return addToCart_1;
+    }
+
 
     //Строка поиска товара на главной странице
     @FindBy(xpath = "//div[@class = 'input__container']/input")
@@ -206,7 +217,7 @@ public class MvideoPageTask2 {
     }
 
     //Поле для ввода текста с плейсхолдером “Телефон”
-    @FindBy(xpath = "//div[@class = 'form-field__input-container']/input[@id = 'mvideo-form-field-input-1']")
+    @FindBy(xpath = "//div[contains(@class, 'modal-layout--without-title')]//div[@class = 'form-field__input-container']")
     private SelenideElement formField;
 
     public SelenideElement getFormField() {
@@ -214,7 +225,7 @@ public class MvideoPageTask2 {
     }
 
     //Неактивная кнопка “Продолжить” в модальном окне
-    @FindBy(xpath = "//div[contains(@class, 'login-form__column')]//*[contains(text(), ' Продолжить')]")
+    @FindBy(xpath = "//div[contains(@class, 'modal-layout--without-title')]//following::div[@class = 'login-form__container login-form__button-container']//button")
     private SelenideElement buttonContinue;
 
     public SelenideElement getButtonContinue() {
@@ -222,11 +233,68 @@ public class MvideoPageTask2 {
     }
 
     //Ссылка "Для юридических лиц"
-    @FindBy(xpath = "//div[contains(@class, 'login-form__link-container')]//*[contains(text(), ' Для юридических лиц ')]")
+    @FindBy(xpath = "//div[contains(@class, 'modal-layout--without-title')]//following::div[@class = 'login-form__container login-form__link-container']//button")
     private SelenideElement link;
 
     public SelenideElement getLink() {
         return link;
+    }
+
+    //Ссылка с текущим городом
+    @FindBy(xpath = " //div[contains(@class, \'app-header-top\')]//div[contains(@class, \'location\')]")
+    private SelenideElement location;
+
+    public SelenideElement getLocation() {
+        return location;
+    }
+
+    //Модальное окно с заголовком “Выберите город”
+    @FindBy(xpath = "//div[contains(@class,'modal-wrapper__content')]/child::div[contains(@class, 'modal-layout')]")
+    private SelenideElement cityModalWindow;
+
+    public SelenideElement getCityModalWindow() {
+        return cityModalWindow;
+    }
+
+    @FindBy(xpath = "//div[contains(@class,'modal-layout')]/.//li[text()='Краснодар']")
+    private SelenideElement stringCity;
+
+    public SelenideElement getStringCity() {
+        return stringCity;
+    }
+
+    //Карточка с наименованием добавленных товаров в "Моя корзина"
+    @FindBy(xpath = "//div[@id = 'checkout_main']")
+    private SelenideElement checkout;
+
+    public SelenideElement getCheckout() {
+        return checkout;
+    }
+
+    //Цена первого товара в корзине
+//    @FindBy(xpath = "//div[@data-product-position = '1']//div[@class = 'c-cart-item__header']//div[@class = 'c-cart-item__price-block']")
+    @FindBy(xpath = "//div[@data-product-position = '1']//div[@class = 'c-cart-item__header']//div[@class = 'c-cart-item__price-block']//span[@class='c-cart-item__price']")
+    private SelenideElement firstProductPrice;
+
+    public SelenideElement getFirstProductPrice() {
+        return firstProductPrice;
+    }
+
+    //Цена второго товара в корзине
+    @FindBy(xpath = "//div[@data-product-position = '2']//div[@class = 'c-cart-item__header']//div[@class = 'c-cart-item__price-block']")
+    private SelenideElement secondProductPrice;
+
+
+    public SelenideElement getSecondProductPrice() {
+        return secondProductPrice;
+    }
+
+    //Общая цена товаров в корзине
+    @FindBy(xpath = "//div[contains(@class, 'c-orders-list') and contains(@class, 'c-orders-list_mobile-sheet')]//div[contains(@class, 'c-cost-line__text-wrap')]//span")
+    private SelenideElement totalPrice;
+
+    public SelenideElement getTotalPrice() {
+        return totalPrice;
     }
 }
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="All Test Suite">
+    <test name="Тест Задание 2">
+        <classes>
+            <class name="TestTask2"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 3">
+        <classes>
+            <class name="TestTask3"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 4">
+        <classes>
+            <class name="TestTask4"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 5">
+        <classes>
+            <class name="TestTask5"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 7">
+        <classes>
+            <class name="TestTask7"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 10">
+        <classes>
+            <class name="TestTask10"/>
+        </classes>
+    </test>
+
+</suite>

@@ -2,62 +2,84 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
-import com.sun.source.tree.AssertTree;
-import org.checkerframework.checker.units.qual.A;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StepsTask3 {
 
     public void checkPerehodVKorzinu() {
+        Configuration.timeout = 200000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement tovaryDnya = mvideoPage.getTovaryDnya();
         Assert.assertTrue(tovaryDnya.isDisplayed());                    //На странице отображается блок “Товары дня”
-//        SelenideElement tovarDnyaPrice = mvideoPage.getTovarDnyaPrice();
-////        String a = tovarDnyaPrice.getOwnText();
+
+        SelenideElement nameOfProductOnProductOfDay = mvideoPage.getNameOfProductOnProductOfDay();
+        String a = nameOfProductOnProductOfDay.getText();
+        SelenideElement tovarDnyaPrice = mvideoPage.getTovarDnyaPrice();
+        String b = tovarDnyaPrice.getText();
+
         SelenideElement vKorzinu = mvideoPage.getvKorzinu();
         vKorzinu.click();                                         //Нажимаем у товара на кнопку “В корзину”
-//        Configuration.timeout = 10000;
-//        SelenideElement korzina = mvideoPage.getKorzina();
-//        korzina.click();                                               //Нажимаем на кнопку “Корзина”
-//        Assert.assertEquals("https://www.mvideo.ru/cart", WebDriverRunner.url());      //Открывается страница “/cart” (проверяем URL открывшейся страницы)
-//        SelenideElement moyaKorzina = mvideoPage.getMoyaKorzina();
-//        Assert.assertTrue(moyaKorzina.isDisplayed());          //Отображается заголовок “Моя корзина”
-//        Configuration.timeout = 10000;
-//
-//        SelenideElement tovarDnyaVKorzinePrice = mvideoPage.getTovarDnyaVKorzinePrice();
-////Assert.assertEquals(a,tovarDnyaVKorzinePrice.getOwnText());
-//        SelenideElement pereityKOformleniu = mvideoPage.getPereityKOformleniu();
-//        Assert.assertTrue(pereityKOformleniu.isDisplayed());             //Отображается кнопка “Перейти к оформлению”
-//        SelenideElement vKorzine1Tovar = mvideoPage.getvKorzine1Tovar();
-//        Assert.assertTrue(vKorzine1Tovar.isDisplayed());      //Элемент "В корзине 1 товар" отображается
-//        Assert.assertEquals("В корзине 1 товар", vKorzine1Tovar.text()); //Отображается текст “В корзине 1 товар”
+        Configuration.timeout = 10000;
+        SelenideElement korzina = mvideoPage.getKorzina();
+        korzina.click();                                               //Нажимаем на кнопку “Корзина”
+        Assert.assertEquals("https://www.mvideo.ru/cart", WebDriverRunner.url());      //Открывается страница “/cart” (проверяем URL открывшейся страницы)
+        SelenideElement moyaKorzina = mvideoPage.getMoyaKorzina();
+        Assert.assertTrue(moyaKorzina.isDisplayed());          //Отображается заголовок “Моя корзина”
+
+        SelenideElement nameOfProductInTheCart = mvideoPage.getNameOfProductInTheCart();
+        Assert.assertEquals(a, nameOfProductInTheCart.getText());    // Проверка, что в корзине оказался именно выбранный товар (проверка по названию товара)
+
+        SelenideElement tovarDnyaVKorzinePrice = mvideoPage.getTovarDnyaVKorzinePrice();
+        Assert.assertEquals(b, tovarDnyaVKorzinePrice.getText().replaceAll("¤", " "));
+
+
+        SelenideElement pereityKOformleniu = mvideoPage.getPereityKOformleniu();
+        Assert.assertTrue(pereityKOformleniu.isDisplayed());             //Отображается кнопка “Перейти к оформлению”
+        SelenideElement vKorzine1Tovar = mvideoPage.getvKorzine1Tovar();
+        Assert.assertTrue(vKorzine1Tovar.isDisplayed());      //Элемент "В корзине 1 товар" отображается
+        Assert.assertEquals("В корзине 1 товар", vKorzine1Tovar.text()); //Отображается текст “В корзине 1 товар”
 
 
     }
 
     public void addingTwoProductsToCart() {
+        Configuration.timeout = 20000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement mostViewed = mvideoPage.getMostViewed();
-        mostViewed.scrollIntoView("{behavior: \"smooth\", block: \"center\", inline: \"center\"}");
+        mostViewed.scrollIntoView("{behavior: \"auto\", block: \"center\", inline: \"center\"}");
         Assert.assertTrue(mostViewed.isDisplayed());          //На странице отображается блок “Самые просматриваемые”
         SelenideElement addToCart = mvideoPage.getAddToCart();
         addToCart.click();                                   // Добавляем 1 товар из блока "Самые просматриваемые"
-        Configuration.timeout = 10000;
-        SelenideElement addToCart_2 = mvideoPage.getAddToCart();
-        addToCart_2.click();
-        Configuration.timeout = 10000;
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SelenideElement addToCart_1 = mvideoPage.getAddToCart_1();
+        addToCart_1.click();                                  // Добавляем 2 товар из блока "Самые просматриваемые"
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         SelenideElement korzina = mvideoPage.getKorzina();
         korzina.scrollTo();
-        korzina.click();
+        korzina.click();                              //Переходим в корзину
+        Configuration.timeout = 60000;
+        SelenideElement checkout = mvideoPage.getCheckout();
+        Assert.assertTrue(checkout.isDisplayed());      //В корзине отображается карточки с наименованиями добавленных товаров
+        int firstProductPrice = parseValue(mvideoPage.getFirstProductPrice());
+        int secondProductPrice = parseValue(mvideoPage.getSecondProductPrice());
+        SelenideElement totalPrice = mvideoPage.getTotalPrice();
+        Assert.assertEquals(firstProductPrice + secondProductPrice, parseValue(totalPrice));
+
     }
 
     public void findProducts() {
+        Configuration.timeout = 200000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement findProduct = mvideoPage.getFindProduct();
         Assert.assertTrue(findProduct.isDisplayed());            //В шапке отображается строка поиска товаров
@@ -74,6 +96,7 @@ public class StepsTask3 {
 
 
     public void sortingInTheListing() {
+        Configuration.timeout = 200000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement findProduct = mvideoPage.getFindProduct();
         Assert.assertTrue(findProduct.isDisplayed());            //В шапке отображается строка поиска товаров
@@ -98,6 +121,7 @@ public class StepsTask3 {
     }
 
     public void checkModalWindow() {
+        Configuration.timeout = 200000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement voity = mvideoPage.getVoity();
         voity.click();                                        //Нажимаем кнопку "Войти"
@@ -105,10 +129,45 @@ public class StepsTask3 {
         Assert.assertTrue(modalWindow.isDisplayed());
         SelenideElement formField = mvideoPage.getFormField();
         Assert.assertTrue(formField.isDisplayed());    //Отображается модальное окно с заголовком "Вход или регистрация"
-//        SelenideElement buttonContinue = mvideoPage.getButtonContinue();
-//        Assert.assertTrue(buttonContinue.isDisplayed());  //Отображается кнопка “Продолжить”
-//        Assert.assertFalse((buttonContinue.isEnabled()));  //Кнопка "Продолжить" неактивная
+        SelenideElement buttonContinue = mvideoPage.getButtonContinue();
+        Assert.assertTrue(buttonContinue.isDisplayed());  //Отображается кнопка “Продолжить”
+        Assert.assertFalse((buttonContinue.isEnabled()));  //Кнопка "Продолжить" неактивная
         SelenideElement link = mvideoPage.getLink();
         Assert.assertTrue(link.isDisplayed());
+    }
+
+    public void changeLocation() {
+        Configuration.timeout = 200000;
+        MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
+        SelenideElement location = mvideoPage.getLocation();
+        location.click();                //нажимаем на ссылку с текущим городом
+        Configuration.timeout = 60000;
+        SelenideElement cityModalWindow = mvideoPage.getCityModalWindow();
+        Assert.assertTrue(cityModalWindow.isDisplayed());     //Открыто модальное окно "Выберите город"
+        Assert.assertTrue(cityModalWindow.has(Condition.text("Выберите город")));  // Заголовок модального окна - "Выберите город"
+        SelenideElement stringCity = mvideoPage.getStringCity();
+        stringCity.click();                 //Нажимаем на строку с городом “Краснодар”
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertFalse(cityModalWindow.isDisplayed());   //Модальное окно с заголовком “Выберите город” не отображается
+        Assert.assertTrue(location.has(Condition.text("Краснодар"))); //В хедере отображается ссылка с городом “Краснодар”
+
+    }
+
+    public int parseValue(SelenideElement value) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String word = value.getText();
+        Pattern pattern = Pattern.compile("\\d+\\S?\\d+");
+        Matcher matcher = pattern.matcher(word);
+        while(matcher.find()) {
+            String s = matcher.group(0);
+            if (s.replaceAll("\\D", "").length() == s.length()) {
+                stringBuilder.append(s);
+            }
+        }
+        return Integer.parseInt(stringBuilder.toString());
     }
 }

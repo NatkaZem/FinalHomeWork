@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Selenide;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -14,5 +15,10 @@ public class TestTask5 {
     @Test
     public void findProducts() {
         steps.findProducts();
+    }
+
+    @AfterTest
+    public void afterTest(){
+        Selenide.closeWebDriver();
     }
 }

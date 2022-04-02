@@ -17,6 +17,11 @@ public class TestTask2 {
         steps.checkThatVKorzinuIsEnabledAndHasNumber();
     }
 
+    @AfterTest
+    public void afterTest(){
+        Selenide.closeWebDriver();
+    }
+
 
 }
 
