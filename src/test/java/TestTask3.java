@@ -2,8 +2,7 @@ import com.codeborne.selenide.Selenide;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-public class TestTask7 {
+public class TestTask3 {
     private StepsTask3 steps = new StepsTask3();
 
 
@@ -13,8 +12,8 @@ public class TestTask7 {
     }
 
     @Test
-    public void modalWindow() {
-        steps.checkModalWindow();
+    public void checkPerehodVKorzinu() {
+        steps.checkPerehodVKorzinu();
     }
 
     @AfterTest
@@ -22,3 +21,6 @@ public class TestTask7 {
         Selenide.closeWebDriver();
     }
 }
+
+
+

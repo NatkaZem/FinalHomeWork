@@ -2,6 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="All Test Suite">
+    <test name="Тест Задание 1">
+        <classes>
+            <class name="TestTask1"/>
+        </classes>
+    </test>
     <test name="Тест Задание 2">
         <classes>
             <class name="TestTask2"/>
@@ -20,6 +25,12 @@
     <test name="Тест Задание 5">
         <classes>
             <class name="TestTask5"/>
+        </classes>
+    </test>
+    <test name="Тест Задание 6">
+        <classes>
+            <class name="TestTask6">
+            </class>
         </classes>
     </test>
     <test name="Тест Задание 7">

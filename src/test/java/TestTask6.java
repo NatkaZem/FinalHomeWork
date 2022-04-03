@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 public class TestTask6 {
     private StepsTask3 steps = new StepsTask3();
 
-
     @BeforeTest
     public void beforeTest() {
         Selenide.open("https://www.mvideo.ru/"); //Открываем ссылку mvideo.ru

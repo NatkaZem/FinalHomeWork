@@ -3,9 +3,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class TestTask10 {
+public class TestTask5 {
     private StepsTask3 steps = new StepsTask3();
-
 
     @BeforeTest
     public void beforeTest() {
@@ -13,8 +12,8 @@ public class TestTask10 {
     }
 
     @Test
-    public void changeLocation() {
-        steps.changeLocation();
+    public void findProducts() {
+        steps.findProducts();
     }
 
     @AfterTest
@@ -22,4 +21,3 @@ public class TestTask10 {
         Selenide.closeWebDriver();
     }
 }
-

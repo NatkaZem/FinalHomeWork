@@ -16,6 +16,5 @@ public class StepsTask2 {
         SelenideElement actual = mvideoPage.getKorzina();
         Assert.assertTrue(actual.isEnabled());                          //Кнопка “Корзина” в шапке становится активной
         Assert.assertTrue(actual.has(Condition.matchText("1")));        //На кнопке "Корзина" отображается число 1
-
-            }
-       }
+    }
+}

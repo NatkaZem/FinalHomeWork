@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class MvideoPageTask1 {
     private static MvideoPageTask1 mvideoPage;
-    public SelenideElement testData;
 
     private MvideoPageTask1() {
     }
@@ -17,32 +16,30 @@ public class MvideoPageTask1 {
     }
 
     //кнопка "Статус заказа"
-    @FindBy(xpath = "//div[@class = 'container'][.//*[text() = 'Статус заказа']]")
-    private SelenideElement statusZakaza;
+    @FindBy(xpath = "//div[@class = 'nav-tabs']//mvid-header-icon[contains(@class, 'tab-status-order')]")
+    private SelenideElement statusOrder;
     //кнопка "Войти"
-    @FindBy(xpath = "//div[@class = 'container'][.//*[text() = 'Войти']]")
-    private SelenideElement voity;
+    @FindBy(xpath = "//div[@class = 'nav-tabs']//div[contains(@class, 'tab-profile')]")
+    private SelenideElement enter;
     //кнопка "Сравнение"
     @FindBy(xpath = "//div[contains(@class, 'tab-compare')]//mvid-header-icon")
-    private SelenideElement sravnenie;
+    private SelenideElement compare;
     //кнопка "Избранное"
-    @FindBy(xpath = "//div[contains(@class, 'tab-personal')]//mvid-header-icon")
-    private SelenideElement izbrannoe;
+    @FindBy(xpath = "//div[contains(@class,'tab-personal')]//mvid-header-icon")
+    private SelenideElement favorite;
     //кнопка "Корзина"
-    @FindBy(xpath = "//div[contains(@class, 'tab-cart')]//mvid-header-icon")
+    @FindBy(xpath = "//div[contains(@class,'tab-cart')]//mvid-header-icon")
     private SelenideElement korzina;
 
 
-    public SelenideElement getStatusZakaza() {return statusZakaza;}
-    public SelenideElement getVoity() {
-        return voity;
+    public SelenideElement getStatusOrder() {return statusOrder;}
+    public SelenideElement getEnter() {
+        return enter;
     }
-    public SelenideElement getSravnenie() {
-        return sravnenie;
+    public SelenideElement getCompare() {
+        return compare;
     }
-    public SelenideElement getIzbrannoe() {
-        return izbrannoe;
-    }
+    public SelenideElement getFavorite() {return favorite;}
     public SelenideElement getKorzina() {
         return korzina;
     }

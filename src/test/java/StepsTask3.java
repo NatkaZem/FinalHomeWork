@@ -10,16 +10,14 @@ import java.util.regex.Pattern;
 public class StepsTask3 {
 
     public void checkPerehodVKorzinu() {
-        Configuration.timeout = 200000;
+        Configuration.timeout = 20000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
         SelenideElement tovaryDnya = mvideoPage.getTovaryDnya();
         Assert.assertTrue(tovaryDnya.isDisplayed());                    //На странице отображается блок “Товары дня”
-
         SelenideElement nameOfProductOnProductOfDay = mvideoPage.getNameOfProductOnProductOfDay();
         String a = nameOfProductOnProductOfDay.getText();
         SelenideElement tovarDnyaPrice = mvideoPage.getTovarDnyaPrice();
         String b = tovarDnyaPrice.getText();
-
         SelenideElement vKorzinu = mvideoPage.getvKorzinu();
         vKorzinu.click();                                         //Нажимаем у товара на кнопку “В корзину”
         Configuration.timeout = 10000;
@@ -28,21 +26,15 @@ public class StepsTask3 {
         Assert.assertEquals("https://www.mvideo.ru/cart", WebDriverRunner.url());      //Открывается страница “/cart” (проверяем URL открывшейся страницы)
         SelenideElement moyaKorzina = mvideoPage.getMoyaKorzina();
         Assert.assertTrue(moyaKorzina.isDisplayed());          //Отображается заголовок “Моя корзина”
-
         SelenideElement nameOfProductInTheCart = mvideoPage.getNameOfProductInTheCart();
         Assert.assertEquals(a, nameOfProductInTheCart.getText());    // Проверка, что в корзине оказался именно выбранный товар (проверка по названию товара)
-
         SelenideElement tovarDnyaVKorzinePrice = mvideoPage.getTovarDnyaVKorzinePrice();
         Assert.assertEquals(b, tovarDnyaVKorzinePrice.getText().replaceAll("¤", " "));
-
-
         SelenideElement pereityKOformleniu = mvideoPage.getPereityKOformleniu();
         Assert.assertTrue(pereityKOformleniu.isDisplayed());             //Отображается кнопка “Перейти к оформлению”
         SelenideElement vKorzine1Tovar = mvideoPage.getvKorzine1Tovar();
         Assert.assertTrue(vKorzine1Tovar.isDisplayed());      //Элемент "В корзине 1 товар" отображается
         Assert.assertEquals("В корзине 1 товар", vKorzine1Tovar.text()); //Отображается текст “В корзине 1 товар”
-
-
     }
 
     public void addingTwoProductsToCart() {
@@ -71,11 +63,10 @@ public class StepsTask3 {
         Configuration.timeout = 60000;
         SelenideElement checkout = mvideoPage.getCheckout();
         Assert.assertTrue(checkout.isDisplayed());      //В корзине отображается карточки с наименованиями добавленных товаров
-        int firstProductPrice = parseValue(mvideoPage.getFirstProductPrice());
-        int secondProductPrice = parseValue(mvideoPage.getSecondProductPrice());
+        int firstProductPrice = parsePrice(mvideoPage.getFirstProductPrice());   //Цена первого добавленного товара в "Моя корзина"
+        int secondProductPrice = parsePrice(mvideoPage.getSecondProductPrice());  //Цена второго добавленного товара в "Моя корзина"
         SelenideElement totalPrice = mvideoPage.getTotalPrice();
-        Assert.assertEquals(firstProductPrice + secondProductPrice, parseValue(totalPrice));
-
+        Assert.assertEquals(firstProductPrice + secondProductPrice, parsePrice(totalPrice)); //Сумма всей корзины равна сумме цен добавленных товаров
     }
 
     public void findProducts() {
@@ -116,15 +107,13 @@ public class StepsTask3 {
         appleProducts.scrollTo();
         Assert.assertTrue(appleProducts.has(Condition.text("Apple")));  //Отображаются только товары содержащие в названии слово apple
         SelenideElement priceApple = mvideoPage.getPriceApple();
-//        ArrayList expectedPrices = getList("//div[@class = 'price price--grid ng-star-inserted']/span");
-//        Collection.sort
     }
 
     public void checkModalWindow() {
         Configuration.timeout = 200000;
         MvideoPageTask2 mvideoPage = MvideoPageTask2.mvideoPage();
-        SelenideElement voity = mvideoPage.getVoity();
-        voity.click();                                        //Нажимаем кнопку "Войти"
+        SelenideElement enter = mvideoPage.getEnter();
+        enter.click();                                        //Нажимаем кнопку "Войти"
         SelenideElement modalWindow = mvideoPage.getModalWindow();
         Assert.assertTrue(modalWindow.isDisplayed());
         SelenideElement formField = mvideoPage.getFormField();
@@ -133,7 +122,7 @@ public class StepsTask3 {
         Assert.assertTrue(buttonContinue.isDisplayed());  //Отображается кнопка “Продолжить”
         Assert.assertFalse((buttonContinue.isEnabled()));  //Кнопка "Продолжить" неактивная
         SelenideElement link = mvideoPage.getLink();
-        Assert.assertTrue(link.isDisplayed());
+        Assert.assertTrue(link.isDisplayed());          //Отображается ссылка “Для юридических лиц”
     }
 
     public void changeLocation() {
@@ -154,20 +143,20 @@ public class StepsTask3 {
         }
         Assert.assertFalse(cityModalWindow.isDisplayed());   //Модальное окно с заголовком “Выберите город” не отображается
         Assert.assertTrue(location.has(Condition.text("Краснодар"))); //В хедере отображается ссылка с городом “Краснодар”
-
     }
 
-    public int parseValue(SelenideElement value) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String word = value.getText();
+    // Парсит цену товара убирает пробелы и лишние символы
+    private int parsePrice(SelenideElement value) {
+        StringBuilder priceBuilder = new StringBuilder();
+        String textPrice = value.getText();
         Pattern pattern = Pattern.compile("\\d+\\S?\\d+");
-        Matcher matcher = pattern.matcher(word);
-        while(matcher.find()) {
-            String s = matcher.group(0);
-            if (s.replaceAll("\\D", "").length() == s.length()) {
-                stringBuilder.append(s);
+        Matcher matcher = pattern.matcher(textPrice);
+        while (matcher.find()) {
+            String group = matcher.group(0);
+            if (group.replaceAll("\\D", "").length() == group.length()) {
+                priceBuilder.append(group);
             }
         }
-        return Integer.parseInt(stringBuilder.toString());
+        return Integer.parseInt(priceBuilder.toString());
     }
 }

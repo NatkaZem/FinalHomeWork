@@ -3,7 +3,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class TestTask4 {
+public class TestTask7 {
     private StepsTask3 steps = new StepsTask3();
 
     @BeforeTest
@@ -12,8 +12,8 @@ public class TestTask4 {
     }
 
     @Test
-    public void addingTwoProductsToCart() {
-        steps.addingTwoProductsToCart();
+    public void modalWindow() {
+        steps.checkModalWindow();
     }
 
     @AfterTest
@@ -21,6 +21,3 @@ public class TestTask4 {
         Selenide.closeWebDriver();
     }
 }
-
-
-
